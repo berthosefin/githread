@@ -1,18 +1,27 @@
 "use server";
 
-import { getUser } from "@/lib/user.query";
 import { WritePostFormValues } from "./WritePostForm";
 import { prisma } from "@/lib/prisma";
+import { getAuthSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const createPost = async (values: WritePostFormValues) => {
-  const user = await getUser();
+  const session = await getAuthSession();
+
+  if (!session?.user.id) {
+    throw new Error("You must be logged in to do this.");
+  }
 
   const post = await prisma.post.create({
     data: {
       content: values.content,
-      userId: user.id,
+      userId: session.user.id,
     },
   });
 
-  return post.id;
+  try {
+    redirect(`/posts/${post.id}`);
+  } catch (error) {
+    return `/posts/${post.id}`;
+  }
 };
