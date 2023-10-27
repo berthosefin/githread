@@ -67,7 +67,7 @@ export default async function UserPage({
                 return;
               }
 
-              followUser(params.userId);
+              await followUser(params.userId);
             }}
           >
             {isFollower ? "Unfollow" : "Follow"}
