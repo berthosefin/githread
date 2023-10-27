@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import clsx from "clsx";
 import { Header } from "@/components/feature/layout/Header";
 import { Footer } from "@/components/feature/layout/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children, modal }: LayoutProps) {
           </div>
           {modal}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
